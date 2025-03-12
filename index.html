@@ -1,473 +1,534 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Important Notice</title>
+    <title>Important Message</title>
     <style>
-        body {
-            font-family: 'Arial', sans-serif;
+        * {
             margin: 0;
             padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            background-color: #f0f4f8;
-            overflow-x: hidden;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
-        .main-container {
+        body {
+            background-color: #f8f9fa;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+
+        .container {
             width: 100%;
             max-width: 800px;
             text-align: center;
-            padding: 20px;
-        }
-
-        .step {
-            display: none;
-            animation: fadeIn 1s;
-        }
-
-        .step.active {
-            display: block;
-        }
-
-        /* Step 1 - Initial Screen */
-        #step1 {
-            background-color: #e8f0fe;
-            padding: 40px;
-            border-radius: 15px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-        }
-
-        .envelope {
-            width: 200px;
-            height: 120px;
-            background-color: #e74c3c;
-            margin: 30px auto;
-            position: relative;
-            border-radius: 5px;
-            cursor: pointer;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-        }
-
-        .envelope-top {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 50%;
-            background-color: #c0392b;
-            clip-path: polygon(0 0, 50% 50%, 100% 0);
-            z-index: 2;
-        }
-
-        .envelope-letter {
-            position: absolute;
-            top: 10px;
-            left: 20px;
-            width: 160px;
-            height: 100px;
-            background-color: white;
-            z-index: 1;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-weight: bold;
-        }
-
-        .title {
-            font-size: 24px;
-            color: #34495e;
-            margin-bottom: 20px;
-        }
-
-        /* Step 2 - Opening Animation */
-        .opening-text {
-            font-size: 32px;
-            color: #3498db;
-            margin: 40px 0;
-        }
-
-        /* Prank Step */
-        #prank-step {
-            background-color: #ffebee;
-            padding: 40px;
-            border-radius: 15px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-        }
-
-        .prank-title {
-            font-size: 32px;
-            color: #e53935;
-            margin-bottom: 20px;
-        }
-
-        .prank-message {
-            font-size: 18px;
-            line-height: 1.5;
-            color: #333;
-            margin-bottom: 30px;
-        }
-
-        .prank-emoji {
-            font-size: 60px;
-            margin: 20px 0;
-        }
-
-        .prank-button {
-            background-color: #e53935;
-            color: white;
-            border: none;
-            padding: 12px 30px;
-            font-size: 18px;
-            border-radius: 50px;
-            cursor: pointer;
-            margin-top: 20px;
-            font-weight: bold;
-            transition: all 0.3s;
-        }
-
-        .prank-button:hover {
-            background-color: #c62828;
-            transform: scale(1.05);
-        }
-
-        /* Invoice Step */
-        #invoice-step {
-            background-color: #fff8e1;
-            padding: 40px;
-            border-radius: 15px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-        }
-
-        .invoice-title {
-            font-size: 28px;
-            color: #f57c00;
-            margin-bottom: 20px;
-        }
-
-        .invoice-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 20px 0;
-            background-color: white;
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-
-        .invoice-table th, .invoice-table td {
-            padding: 12px;
-            text-align: left;
-            border-bottom: 1px solid #eee;
-        }
-
-        .invoice-table th {
-            background-color: #f57c00;
-            color: white;
-        }
-
-        .invoice-total {
-            font-weight: bold;
-            font-size: 20px;
-            color: #e53935;
-            margin: 20px 0;
-        }
-
-        .invoice-button {
-            background-color: #f57c00;
-            color: white;
-            border: none;
-            padding: 12px 30px;
-            font-size: 18px;
-            border-radius: 50px;
-            cursor: pointer;
-            margin-top: 20px;
-            font-weight: bold;
-            transition: all 0.3s;
-        }
-
-        .invoice-button:hover {
-            background-color: #e65100;
-            transform: scale(1.05);
-        }
-
-        /* Loading Step */
-        #loading-step {
-            padding: 40px;
-        }
-
-        .loader {
-            border: 16px solid #f3f3f3;
-            border-radius: 50%;
-            border-top: 16px solid #3498db;
-            width: 120px;
-            height: 120px;
-            margin: 0 auto 30px auto;
-            animation: spin 2s linear infinite;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        /* Step 3 - Visa Reveal */
-        #step3 {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 40px;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-        }
-
-        .visa-title {
-            font-size: 42px;
-            margin-bottom: 30px;
-            font-weight: bold;
-        }
-
-        .visa-message {
-            font-size: 22px;
-            line-height: 1.6;
-            margin-bottom: 30px;
-        }
-
-        .visa-details {
-            background: rgba(255,255,255,0.2);
-            padding: 20px;
+            padding: 1.5rem;
             border-radius: 10px;
-            margin: 20px 0;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            background-color: white;
+            position: relative;
+            overflow: hidden;
         }
 
-        .celebration-button {
-            background-color: white;
-            color: #764ba2;
+        h1 {
+            font-size: clamp(1.8rem, 5vw, 2.5rem);
+            margin-bottom: 1.5rem;
+            color: #dc3545;
+        }
+
+        p {
+            font-size: clamp(1rem, 3vw, 1.2rem);
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .warning-icon {
+            font-size: clamp(3rem, 8vw, 5rem);
+            margin-bottom: 1rem;
+            color: #dc3545;
+        }
+
+        .serious-msg {
+            font-weight: bold;
+            font-size: clamp(1.1rem, 3.5vw, 1.4rem);
+        }
+
+        .btn {
+            background-color: #dc3545;
+            color: white;
             border: none;
-            padding: 12px 30px;
-            font-size: 18px;
+            padding: 0.8rem 1.5rem;
+            font-size: clamp(1rem, 3vw, 1.2rem);
             border-radius: 50px;
             cursor: pointer;
-            margin-top: 20px;
-            font-weight: bold;
-            transition: all 0.3s;
+            transition: all 0.3s ease;
+            margin-top: 1rem;
+            width: auto;
+            max-width: 100%;
         }
 
-        .celebration-button:hover {
+        .btn:hover {
+            background-color: #c82333;
             transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         }
 
-        .confetti {
-            position: fixed;
+        #prank-container {
+            transition: all 0.5s ease;
+        }
+
+        #real-container {
+            display: none;
+            transition: all 0.5s ease;
+        }
+
+        .celebration {
+            position: absolute;
             width: 10px;
             height: 10px;
-            background-color: #f00;
-            pointer-events: none;
-            z-index: 1000;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+            border-radius: 50%;
+            animation: fall 3s linear infinite;
         }
 
         @keyframes fall {
-            0% { transform: translateY(-100vh) rotate(0deg); opacity: 1; }
-            100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+            0% {
+                transform: translateY(-100px) rotate(0deg);
+                opacity: 1;
+            }
+
+            100% {
+                transform: translateY(800px) rotate(360deg);
+                opacity: 0;
+            }
         }
 
-        @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            10%, 30%, 50%, 70%, 90% { transform: translateX(-10px); }
-            20%, 40%, 60%, 80% { transform: translateX(10px); }
+        .heart {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            background-color: #ff4081;
+            transform: rotate(45deg);
+            animation: heartbeat 1.5s ease infinite;
+            display: none;
         }
 
-        .shake {
-            animation: shake 0.5s;
+        .heart:before,
+        .heart:after {
+            content: '';
+            width: 30px;
+            height: 30px;
+            background-color: #ff4081;
+            border-radius: 50%;
+            position: absolute;
         }
 
-        .instruction {
-            margin-top: 20px;
-            color: #555;
-            font-style: italic;
+        .heart:before {
+            top: -15px;
+            left: 0;
         }
 
+        .heart:after {
+            top: 0;
+            left: -15px;
+        }
+
+        @keyframes heartbeat {
+            0% {
+                transform: rotate(45deg) scale(0.8);
+            }
+
+            5% {
+                transform: rotate(45deg) scale(0.9);
+            }
+
+            10% {
+                transform: rotate(45deg) scale(0.8);
+            }
+
+            15% {
+                transform: rotate(45deg) scale(1);
+            }
+
+            50% {
+                transform: rotate(45deg) scale(0.8);
+            }
+
+            100% {
+                transform: rotate(45deg) scale(0.8);
+            }
+        }
+
+        .visa-container {
+            margin-top: 2rem;
+            position: relative;
+            width: 100%;
+            max-width: 300px;
+            height: 180px;
+            margin: 2rem auto;
+            perspective: 1000px;
+        }
+
+        .visa-card {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 1s;
+        }
+
+        .visa-card.flipped {
+            transform: rotateY(180deg);
+        }
+
+        .visa-front,
+        .visa-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .visa-front {
+            background: linear-gradient(135deg, #43cea2, #185a9d);
+            color: white;
+        }
+
+        .visa-back {
+            background: linear-gradient(135deg, #4b6cb7, #182848);
+            color: white;
+            transform: rotateY(180deg);
+        }
+
+        .visa-stamp {
+            font-size: clamp(1.5rem, 4vw, 2rem);
+            font-weight: bold;
+            color: #2ecc71;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+            margin-top: 1rem;
+            transform: rotate(-15deg);
+            border: 4px solid #2ecc71;
+            padding: 0.5rem 1rem;
+            border-radius: 10px;
+        }
+
+        .real-message {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 1.5s ease;
+        }
+
+        .slide-up {
+            animation: slideUp 1s forwards;
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(100%);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        /* Enhanced responsive styles */
         .emojis {
-            font-size: 40px;
-            margin: 20px 0;
+            font-size: clamp(2rem, 6vw, 3rem);
+            margin-bottom: 1.5rem;
+            animation: bounce 2s infinite;
+        }
+        
+        .emoji {
+            display: inline-block;
+            margin: 0 10px;
+            animation: float 3s infinite;
+        }
+        
+        .emoji:nth-child(2) {
+            animation-delay: 0.5s;
+        }
+        
+        .emoji:nth-child(3) {
+            animation-delay: 1s;
+        }
+        
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-15px);
+            }
+        }
+        
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateY(-20px);
+            }
+            60% {
+                transform: translateY(-10px);
+            }
+        }
+        
+        .visa-title {
+            color: #2ecc71;
+            font-size: clamp(2rem, 6vw, 3rem);
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+            letter-spacing: 2px;
+            margin-bottom: 1rem;
+            animation: glow 2s infinite;
+        }
+        
+        @keyframes glow {
+            0%, 100% {
+                text-shadow: 0 0 10px rgba(46, 204, 113, 0.5);
+            }
+            50% {
+                text-shadow: 0 0 20px rgba(46, 204, 113, 0.9);
+            }
+        }
+        
+        .visa-message {
+            font-size: clamp(1.2rem, 3.5vw, 1.5rem);
+            font-weight: bold;
+            margin: 1.5rem 0;
+            color: #3498db;
+        }
+        
+        .visa-details {
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            padding: 1.2rem;
+            margin: 1.5rem 0;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .visa-details p {
+            margin-bottom: 1rem;
+            font-size: clamp(1rem, 3vw, 1.2rem);
+        }
+        
+        .visa-details p:last-child {
+            margin-bottom: 0;
+            font-weight: bold;
+            color: #3498db;
+        }
+        
+        #celebrate-btn {
+            padding: 1rem 2rem;
+            font-size: clamp(1.1rem, 3.5vw, 1.4rem);
+            font-weight: bold;
+            box-shadow: 0 5px 15px rgba(46, 204, 113, 0.4);
+            transition: all 0.3s ease;
+            background-color: #2ecc71;
+            margin: 1rem auto;
+            display: inline-block;
+        }
+        
+        #celebrate-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(46, 204, 113, 0.6);
+        }
+
+        /* Media queries for better responsiveness */
+        @media (max-width: 768px) {
+            .container {
+                padding: 1.2rem;
+            }
+            
+            .btn {
+                padding: 0.7rem 1.2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .visa-container {
+                height: 150px;
+            }
+            
+            .visa-stamp {
+                padding: 0.3rem 0.8rem;
+                border-width: 3px;
+            }
+            
+            .visa-details {
+                padding: 1rem;
+            }
+            
+            .btn {
+                width: 100%;
+                max-width: 250px;
+            }
         }
     </style>
 </head>
+
 <body>
-    <div class="main-container">
-        <!-- Step 1: Initial Envelope -->
-        <div id="step1" class="step active">
-            <!-- Removed the "I have something for you..." title -->
-            <div class="envelope" id="envelope">
-                <div class="envelope-top"></div>
-                <div class="envelope-letter">Click to open</div>
+    <div class="container">
+        <div id="prank-container">
+            <div class="warning-icon">⚠️</div>
+            <h1>Account Verification Required</h1>
+            <p class="serious-msg">We've detected unusual activity on your account</p>
+            <p>Our security system has flagged a potential security breach associated with your personal profile. If
+                this is not addressed within the next 24 hours, your account may be temporarily suspended.</p>
+            <p>Please verify your identity by clicking the button below to continue using our services.</p>
+            <button class="btn" id="verify-btn">Verify My Account</button>
+        </div>
+
+        <div id="real-container">
+            <div class="real-message" id="message-1">
+                <h1 style="color: #3498db;">Wait a minute...</h1>
+                <p>Actually, there's no account issue at all!</p>
+                <p>I have something much more important to tell you...</p>
+                <button class="btn" id="continue-btn" style="background-color: #3498db;">Continue</button>
             </div>
-            <p class="instruction">Click the envelope to see what's inside!</p>
-        </div>
 
-        <!-- Step 2: Opening Animation -->
-        <div id="step2" class="step">
-            <h1 class="opening-text">Opening... Please wait.....</h1>
-        </div>
-
-        <!-- Prank Step: Invoice -->
-        <div id="invoice-step" class="step">
-            <div class="prank-emoji">💰</div>
-            <h1 class="invoice-title">INVOICE - DUE IMMEDIATELY</h1>
-            <p class="prank-message">Here's a summary of expenses recently...</p>
-            
-            <table class="invoice-table">
-                <thead>
-                    <tr>
-                        <th>Item</th>
-                        <th>Amount</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Internet</td>
-                        <td>$1506.75</td>
-                    </tr>
-                    <tr>
-                        <td>Water</td>
-                        <td>$34909.99</td>
-                    </tr>
-                    <tr>
-                        <td>Electricity</td>
-                        <td>$27036.30</td>
-                    </tr>
-                </tbody>
-            </table>
-            
-            <div class="invoice-total">TOTAL DUE: $800981.54</div>
-            
-            <button class="invoice-button" id="check-again-btn">Click here to see complete info</button>
-        </div>
-
-        <!-- Loading Step -->
-        <div id="loading-step" class="step">
-            <div class="loader"></div>
-            <h2>Processing your reaction...</h2>
-            <p>Please wait a moment while we prepare your real surprise...</p>
-        </div>
-
-        <!-- Step 3: Visa Reveal -->
-        <div id="step3" class="step">
-            <div class="emojis">✈️ 🎉 🌍</div>
-            <h1 class="visa-title">VISA APPROVED!</h1>
-            <p class="visa-message">Surprise! The adventure begins now! We've been approved and can finally be together!</p>
-            
-            <div class="visa-details">
-                <p>Your visa application has been successfully processed and approved.</p>
-                <p>Sorry about that fake invoice! I couldn't resist playing a little prank first! 😆</p>
-                <p>I can't wait for all our adventures together!</p>
+            <!-- Enhanced message-2 section -->
+            <div class="real-message" id="message-2">
+                <div class="emojis">
+                    <span class="emoji">✈️</span>
+                    <span class="emoji">🎉</span>
+                    <span class="emoji">🌍</span>
+                </div>
+                
+                <h1 class="visa-title">VISA APPROVED!</h1>
+                
+                <div class="visa-stamp">APPROVED</div>
+                
+                <p class="visa-message">Surprise! We've been approved and can finally be together!</p>
+                
+                <div class="visa-container">
+                    <div class="visa-card" id="visa-card">
+                        <div class="visa-front">
+                            <h3>Travel Visa</h3>
+                            <p>Status: Approved</p>
+                            <p>Click to see details</p>
+                        </div>
+                        <div class="visa-back">
+                            <h3>Visa Details</h3>
+                            <p>Date: March 11, 2025</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="visa-details">
+                    <p>My visa application has been successfully processed and approved.</p>
+                    <p>Sorry about that fake Account verification Love! I couldn't resist playing a little prank first HEHEHEHHEHEHE! 😆</p>
+                    <p>I can't wait to be with you Loveeeee!</p>
+                    <p style="color: red;">I LOVE YOU MY PRETTY BABYY!</p>
+                </div>
+                
+                <button class="btn" id="celebrate-btn">Let's Celebrate My Princess!</button>
             </div>
-            
-            <button class="celebration-button" id="celebrate-btn">Let's Celebrate! 🥂</button>
         </div>
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Get elements
-            const envelope = document.getElementById('envelope');
-            const step1 = document.getElementById('step1');
-            const step2 = document.getElementById('step2');
-            const invoiceStep = document.getElementById('invoice-step');
-            const loadingStep = document.getElementById('loading-step');
-            const step3 = document.getElementById('step3');
-            const checkAgainBtn = document.getElementById('check-again-btn');
+        document.addEventListener('DOMContentLoaded', function () {
+            const verifyBtn = document.getElementById('verify-btn');
+            const continueBtn = document.getElementById('continue-btn');
             const celebrateBtn = document.getElementById('celebrate-btn');
-            
-            // Function to switch steps
-            function showStep(step) {
-                document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
-                step.classList.add('active');
-            }
-            
-            // Create confetti function
-            function createConfetti(count = 50) {
-                const colors = ['#ff0000', '#00ff00', '#0000ff', '#ffff00', '#ff00ff', '#00ffff', '#ffa500'];
-                
-                for (let i = 0; i < count; i++) {
+            const prankContainer = document.getElementById('prank-container');
+            const realContainer = document.getElementById('real-container');
+            const message1 = document.getElementById('message-1');
+            const message2 = document.getElementById('message-2');
+            const visaCard = document.getElementById('visa-card');
+
+            // Starting the prank
+            verifyBtn.addEventListener('click', function () {
+                prankContainer.style.opacity = '0';
+                setTimeout(() => {
+                    prankContainer.style.display = 'none';
+                    realContainer.style.display = 'block';
+                    setTimeout(() => {
+                        realContainer.style.opacity = '1';
+                        message1.style.maxHeight = '1000px';
+                    }, 100);
+                }, 500);
+            });
+
+            // Continuing to the real message
+            continueBtn.addEventListener('click', function () {
+                message1.style.maxHeight = '0';
+                setTimeout(() => {
+                    message1.style.display = 'none';
+                    message2.style.display = 'block';
+                    setTimeout(() => {
+                        message2.style.maxHeight = '2000px';
+                        message2.classList.add('slide-up');
+                    }, 100);
+                }, 500);
+            });
+
+            // Flipping the visa card
+            visaCard.addEventListener('click', function () {
+                this.classList.toggle('flipped');
+            });
+
+            // Celebration animation
+            celebrateBtn.addEventListener('click', function () {
+                createConfetti();
+                createHearts();
+            });
+
+            function createConfetti() {
+                for (let i = 0; i < 100; i++) {
                     const confetti = document.createElement('div');
-                    confetti.className = 'confetti';
-                    
-                    // Random position
+                    confetti.classList.add('celebration');
                     confetti.style.left = Math.random() * 100 + 'vw';
-                    
-                    // Random color
-                    confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-                    
-                    // Random size
-                    const size = Math.random() * 10 + 5;
-                    confetti.style.width = size + 'px';
-                    confetti.style.height = size + 'px';
-                    
-                    // Random shape
-                    confetti.style.borderRadius = Math.random() > 0.5 ? '50%' : '0';
-                    
-                    // Animation
-                    confetti.style.animation = `fall ${Math.random() * 3 + 2}s linear forwards`;
-                    
+                    confetti.style.animationDuration = (Math.random() * 3 + 2) + 's';
+                    confetti.style.backgroundColor = getRandomColor();
                     document.body.appendChild(confetti);
-                    
-                    // Remove after animation
+
                     setTimeout(() => {
                         confetti.remove();
                     }, 5000);
                 }
             }
-            
-            // Shake function
-            function shakeElement(element) {
-                element.classList.add('shake');
-                setTimeout(() => {
-                    element.classList.remove('shake');
-                }, 500);
-            }
-            
-            // Click envelope event
-            envelope.addEventListener('click', function() {
-                showStep(step2);
-                
-                // Show prank step after delay
-                setTimeout(() => {
-                    showStep(invoiceStep);
-                    shakeElement(invoiceStep);
-                }, 2000);
-            });
-            
-            // Check again button event
-            checkAgainBtn.addEventListener('click', function() {
-                showStep(loadingStep);
-                
-                // Show real result after delay
-                setTimeout(() => {
-                    showStep(step3);
-                    createConfetti(100);
-                }, 3000);
-            });
-            
-            // Celebrate button event
-            celebrateBtn.addEventListener('click', function() {
-                createConfetti(100);
-                this.textContent = "Hooray! 🎊🎉";
-                
-                // Vibrate on mobile if supported
-                if (navigator.vibrate) {
-                    navigator.vibrate([100, 30, 100, 30, 100]);
+
+            function createHearts() {
+                for (let i = 0; i < 20; i++) {
+                    const heart = document.createElement('div');
+                    heart.classList.add('heart');
+                    heart.style.left = Math.random() * 90 + 5 + 'vw';
+                    heart.style.top = Math.random() * 90 + 5 + 'vh';
+                    heart.style.opacity = Math.random() * 0.5 + 0.5;
+                    heart.style.transform = `rotate(45deg) scale(${Math.random() * 0.5 + 0.5})`;
+                    heart.style.display = 'block';
+                    document.body.appendChild(heart);
+
+                    setTimeout(() => {
+                        heart.remove();
+                    }, 10000);
                 }
-            });
+            }
+
+            function getRandomColor() {
+                const colors = ['#ff4081', '#3498db', '#2ecc71', '#f1c40f', '#9b59b6', '#e74c3c'];
+                return colors[Math.floor(Math.random() * colors.length)];
+            }
         });
     </script>
 </body>
+
 </html>
